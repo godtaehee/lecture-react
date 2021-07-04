@@ -6,6 +6,7 @@ export default class View {
     if (!element) throw "no element";
 
     this.element = element;
+    console.log(element.tagName, this.element.style.display);
     this.originalDisplay = this.element.style.display || "";
 
     return this;

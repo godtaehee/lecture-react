@@ -1,11 +1,19 @@
 export default class Controller {
-  constructor(store, {searchFormView, searchResultView}) {
+  constructor(store,
+              {
+                searchFormView,
+                searchResultView,
+                tabView
+              }
+              ) {
     this.store = store;
 
     this.searchFormView = searchFormView;
     this.searchResultView = searchResultView;
+    this.tabView = tabView;
 
-    this.subscribeViewEvents()
+    this.subscribeViewEvents();
+    this.render();
   }
 
   subscribeViewEvents() {
@@ -20,15 +28,23 @@ export default class Controller {
   }
 
   reset() {
-    console.log('reset');
+    this.store.searchKeyword = '';
+    this.store.searchResult = [];
+    this.render();
   }
 
   render() {
     if(this.store.searchKeyword.length > 0) {
-      this.searchResultView.show(this.store.searchResult);
+      this.renderSearchResult();
       return;
     }
 
     this.searchResultView.hide();
+    this.tabView.show(this.store.selectedTab);
+  }
+
+  renderSearchResult() {
+    this.tabView.hide();
+    this.searchResultView.show(this.store.searchResult);
   }
 }
